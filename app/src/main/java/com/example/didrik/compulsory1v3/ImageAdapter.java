@@ -15,6 +15,9 @@ import java.util.ArrayList;
 
 /**
  * A custom ArrayAdapter implementation, to render images in a ListView.
+ * @author Didrik Emil Aubert
+ * @author Ståle André Mikalsen
+ * @author Viljar Buen Rolfsen
  */
 public class ImageAdapter extends ArrayAdapter<Person> {
 
@@ -60,7 +63,7 @@ public class ImageAdapter extends ArrayAdapter<Person> {
         if (person != null) {
             ImageView imageView = (ImageView) v.findViewById(R.id.listViewImages);
             if (imageView != null) {
-                InputStream stream = null;
+                InputStream stream;
                 try {
                     Uri uri = Uri.parse(person.getUriString());
                     stream = context.getContentResolver().openInputStream(uri);

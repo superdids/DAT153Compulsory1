@@ -80,7 +80,7 @@ public class LearnActivity extends AppCompatActivity {
     /**
      * Renders the view, shuffles the list of persons and shows the
      * first person in the shuffled list.
-     * @param savedInstanceState //TODO
+     * @param savedInstanceState Information of this activity's previously frozen state.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +121,7 @@ public class LearnActivity extends AppCompatActivity {
     /**
      * Computes score and proceeds by either viewing the next image,
      * or invoking ScoreActivity to view results.
-     * @param view
+     * @param view The button which was clicked.
      */
     public void onClick(View view) {
 
@@ -158,8 +158,7 @@ public class LearnActivity extends AppCompatActivity {
      * @return The InputStream of the URI object.
      */
     private static InputStream fetchImage(Context context, Uri uri) throws IOException {
-        InputStream stream = context.getContentResolver().openInputStream(uri);
-        return stream;
+        return context.getContentResolver().openInputStream(uri);
     }
 
     /**

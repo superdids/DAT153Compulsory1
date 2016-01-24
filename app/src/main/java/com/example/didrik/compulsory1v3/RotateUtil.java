@@ -11,7 +11,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 /**
- * Created by didrik on 24.01.16.
+ * Rotates an Image based on its orientation. This class is inspired from
+ * stackoverflow, and is slightly modified. It is not providing the expected
+ * results on all devices, but works as a temporary solution.
+ * @author Didrik Emil Aubert
+ * @author Ståle André Mikalsen
+ * @author Viljar Buen Rolfsen
  */
 public class RotateUtil {
 

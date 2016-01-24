@@ -6,10 +6,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+/**
+ * Result of the users performance in learning mode.
+ * @author Didrik Emil Aubert
+ * @author Ståle André Mikalsen
+ * @author Viljar Buen Rolfsen
+ */
 public class ScoreActivity extends AppCompatActivity {
 
-    public static final String CORRECT = "dat153.hib.no.oblig1v2.CORRECT";
-    public static final String TOTAL = "dat153.hib.no.oblig1.v2.TOTAL";
+    /**
+     * Key representing the amount of correct answers submitted by the user.
+     */
+    public static final String CORRECT = "com.example.didrik.compulsory1v3.CORRECT";
+
+    /**
+     * Key representing the total amount of answers submitted by the user.
+     */
+    public static final String TOTAL = "com.example.didrik.compulsory1v3.TOTAL";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +45,10 @@ public class ScoreActivity extends AppCompatActivity {
         scoreView.setText(resultScoreText);
     }
 
+    /**
+     * Pressing this button will bring the MainActivity to the foreground.
+     * @param view The item which was clicked.
+     */
     public void onClick(View view) {
         Intent resumeMain = new Intent(ScoreActivity.this, MainActivity.class);
         resumeMain.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

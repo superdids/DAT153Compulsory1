@@ -10,8 +10,11 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 /**
- * Views clickable items in a ListView. Each item contains an image associated
- * to a name (the name is not shown beside the image).
+ * Views clickable items in a ListView. Each item contains an image which is
+ * associated to a name (the name is not shown beside the image).
+ * @author Didrik Emil Aubert
+ * @author Ståle André Mikalsen
+ * @author Viljar Buen Rolfsen
  */
 public class ImagesActivity extends AppCompatActivity {
 
@@ -33,9 +36,8 @@ public class ImagesActivity extends AppCompatActivity {
 
 
     /**
-     * Renders the view on a mobile device and renders the adapter
-     * after associating it to the list.
-     * @param savedInstanceState
+     * Renders an AdapterView after associating the adapter to the list.
+     * @param savedInstanceState Information of this activity's previously frozen state.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,7 @@ public class ImagesActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Intent intent = new Intent(ImagesActivity.this, ShowPersonActivity.class);
-                intent.putExtra(NamesActivity.NAME, list.get(position).getName());
+                intent.putExtra(ShowPersonActivity.NAME, list.get(position).getName());
                 startActivity(intent);
             }
         });

@@ -7,9 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Database private to the application.
+ * Database operations on the "persons" table, private to the application.
+ * @author Didrik Emil Aubert
+ * @author Ståle André Mikalsen
+ * @author Viljar Buen Rolfsen
  */
 public class ApplicationDatabase extends SQLiteOpenHelper {
 
@@ -57,7 +61,7 @@ public class ApplicationDatabase extends SQLiteOpenHelper {
     /**
      * Searches the database for a specific id.
      * @param name The id being investigated.
-     * @return The person object if exists, a null-reference otherwise.
+     * @return A person object if the id exists, a null-reference otherwise.
      */
     public Person find(String name) {
         SQLiteDatabase db = getWritableDatabase();

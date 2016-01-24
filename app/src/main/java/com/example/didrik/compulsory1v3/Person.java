@@ -3,6 +3,9 @@ package com.example.didrik.compulsory1v3;
 /**
  * The person class represents the name of the person and an URI
  * string to an image located on the device.
+ * @author Didrik Emil Aubert
+ * @author Ståle André Mikalsen
+ * @author Viljar Buen Rolfsen
  */
 public class Person {
 
@@ -34,10 +37,10 @@ public class Person {
     }
 
     /**
-     * The default ArrayAdapter implementation will retrieve the toString
+     * A default ArrayAdapter implementation will retrieve the toString
      * representation of an object. In our case, we want toString to get the name,
      * saving us some lines of code by avoiding a custom implementation of the adapter
-     * when rendering NamesActivity.
+     * when rendering the ListView in NamesActivity.
      * @return Name of the person.
      */
     @Override
