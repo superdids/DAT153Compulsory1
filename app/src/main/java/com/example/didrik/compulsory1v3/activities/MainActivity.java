@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 myDB.addPerson(new Person(names[x], uri.toString()));
             }
         }
+
     }
 
     private Uri getResourceById(Resources resources, int id) {
@@ -103,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
                 resources.getResourceTypeName(id) + "/" +
                 resources.getResourceEntryName(id));
     }
-
-
 
     /**
      * Pressing either the "Names", "Images" or "Learn" button, will start
@@ -124,8 +123,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.learn :
                 ArrayList<Person> list = myDB.fetchAll();
-                if(list.size() == 0)
-                    Toast.makeText(getApplicationContext(), "Nothing to learn.", Toast.LENGTH_SHORT).show();
+                if(list.size() == 0) {
+                    String message = getResources().getString(R.string.toastEmptyLearn);
+                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                }
                 else
                     startActivity(new Intent(this, LearnActivity.class));
                 break;
@@ -133,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
                 addMember();
                 break;
             default :
-                Toast.makeText(getApplicationContext(), "Something wrong happened", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -149,9 +149,13 @@ public class MainActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.personName);
         String name = editText.getText().toString();
         if(name.equals("")) {
-            Toast.makeText(getApplicationContext(), "Please enter a name", Toast.LENGTH_SHORT).show();
+            String message = getResources().getString(R.string.toastEnterName);
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
         } else if(myDB.exists(name)) {
-            Toast.makeText(getApplicationContext(), name + " already exists...", Toast.LENGTH_SHORT).show();
+            String messageA = getResources().getString(R.string.toastTheName);
+            String messageB = getResources().getString(R.string.toastIsTaken);
+            String message = messageA + name + messageB;
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
         } else {
             showImageOptions();
         }
@@ -181,9 +185,14 @@ public class MainActivity extends AppCompatActivity {
                                 } else {
                                     //An explaining text will be given the user if necessary.
                                     if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                                        Toast.makeText(MainActivity.this, "Camera permission is needed to use the camera",
-                                                Toast.LENGTH_SHORT).show();
+                                        String message = getResources().getString(R.string.toastCameraPermission);
+                                        Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
                                     }
+                                    if(shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                                        String message = getResources().getString(R.string.toastWritePermission);
+                                        Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+                                    }
+
                                     requestPermissions(new String[]{Manifest.permission.CAMERA,
                                             Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA_RW);
                                 }
@@ -233,7 +242,8 @@ public class MainActivity extends AppCompatActivity {
                     && results[1] == PackageManager.PERMISSION_GRANTED) {
                 initiateCamera();
             } else {
-                Toast.makeText(MainActivity.this, "Permission was not granted", Toast.LENGTH_SHORT).show();
+                String message = getResources().getString(R.string.permissionNotGranted);
+                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, results);

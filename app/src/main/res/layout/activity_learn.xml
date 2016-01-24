@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="dat153.hib.no.compulsory1v2.LearnActivity">
+    tools:context="com.example.didrik.compulsory1v3.activities.LearnActivity">
 
     <LinearLayout
         android:orientation="vertical"
@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Images left: "
+                android:text="@string/imagesLeft"
                 android:id="@+id/learnTextView" />
 
             <TextView
@@ -43,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Score: "
+                    android:text="@string/score"
                     android:id="@+id/learnScore"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:hint="Enter name of person"
+                android:hint="@string/enterNameOf"
                 android:ems="10"
                 android:id="@+id/learnEditText"
                 android:layout_weight="1" />
@@ -76,7 +76,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Submit"
+                android:text="@string/submit"
                 android:id="@+id/learnButton"
                 android:layout_weight="1"
                 android:onClick="onClick" />

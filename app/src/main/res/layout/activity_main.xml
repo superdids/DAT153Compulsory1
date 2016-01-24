@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="dat153.hib.no.compulsory1v2.MainActivity">
+    tools:context="com.example.didrik.compulsory1v3.activities.MainActivity">
 
     <LinearLayout
         android:orientation="vertical"
@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:hint="Enter person name"
+            android:hint="@string/enterName"
             android:ems="10"
             android:id="@+id/personName"
             android:layout_alignParentTop="true"
@@ -69,7 +69,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Add person"
+            android:text="@string/addPerson"
             android:id="@+id/addPerson"
             android:background="@color/buttonColor"
             android:layout_alignBottom="@+id/personName"

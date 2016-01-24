@@ -38,10 +38,15 @@ public class ScoreActivity extends AppCompatActivity {
         TextView headingView = (TextView) findViewById(R.id.scoreResultHeading);
         TextView scoreView = (TextView) findViewById(R.id.scoreResultText);
 
-        String resultHeadingText = "Results";
-        if(correct == total)
-            resultHeadingText = "Congratulations!";
-        String resultScoreText = "You scored " + correct + " out of " + total;
+        String resultHeadingText;
+        String [] dividedText = getResources().getStringArray(R.array.scoreActivity);
+        if(correct != total)
+            resultHeadingText = dividedText[0];
+        else
+            resultHeadingText = dividedText[1];
+
+        String resultScoreText = dividedText[2] + correct + dividedText[3]
+                + total + dividedText[4];
 
         headingView.setText(resultHeadingText);
         scoreView.setText(resultScoreText);

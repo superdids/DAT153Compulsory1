@@ -97,8 +97,9 @@ public class LearnActivity extends AppCompatActivity {
 
         total = list.size();
         if(total <= 0) {
-            //TODO return to MainActivity or print a msg
-            Toast.makeText(getApplicationContext(), "DONE", Toast.LENGTH_SHORT).show();
+            Intent resumeMain = new Intent(LearnActivity.this, MainActivity.class);
+            resumeMain.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(resumeMain);
             return;
         } else {
 
