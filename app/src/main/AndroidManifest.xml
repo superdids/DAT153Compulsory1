@@ -2,6 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.didrik.compulsory1v3">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,6 +23,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ImagesActivity" />
+        <activity android:name=".LearnActivity" />
+        <activity android:name=".NamesActivity" />
+        <activity android:name=".ShowPersonActivity" />
+        <activity android:name=".ScoreActivity"></activity>
     </application>
 
 </manifest>
