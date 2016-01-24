@@ -1,14 +1,19 @@
 package com.example.didrik.compulsory1v3;
 
 /**
- * Created by didrik on 24.01.16.
+ * The person class represents the name of the person and an URI
+ * string to an image located on the device.
  */
-
 public class Person {
 
     private String name;
     private String uriString;
 
+    /**
+     * Constructor assigning values to the field variables
+     * @param name Name of person
+     * @param uriString URI string of where the image is located on the device
+     */
     public Person(String name, String uriString) {
         this.name = name;
         this.uriString = uriString;
@@ -28,6 +33,13 @@ public class Person {
         this.uriString = uriString;
     }
 
+    /**
+     * The default ArrayAdapter implementation will retrieve the toString
+     * representation of an object. In our case, we want toString to get the name,
+     * saving us some lines of code by avoiding a custom implementation of the adapter
+     * when rendering NamesActivity.
+     * @return Name of the person.
+     */
     @Override
     public String toString() {
         return name;

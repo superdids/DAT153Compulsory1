@@ -17,7 +17,7 @@ public class RotateUtil {
 
     public static void rotate(ExifInterface exif, File file) throws Exception {
         int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-        int angle = 90;
+        int angle = 270;
         switch (orientation) {
             case ExifInterface.ORIENTATION_ROTATE_90 :
                 angle = 90;

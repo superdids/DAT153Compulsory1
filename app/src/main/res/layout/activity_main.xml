@@ -24,7 +24,7 @@
             android:layout_gravity="center_horizontal"
             android:onClick="onClick"
             android:background="@color/buttonColor"
-            android:textColor="@color/buttonText"/>
+            android:textColor="@color/buttonText" />
 
         <Button
             android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             android:layout_gravity="center_horizontal"
             android:onClick="onClick"
             android:background="@color/buttonColor"
-            android:textColor="@color/buttonText"/>
+            android:textColor="@color/buttonText" />
 
         <Button
             android:layout_width="match_parent"
@@ -44,7 +44,7 @@
             android:layout_gravity="center_horizontal"
             android:onClick="onClick"
             android:background="@color/buttonColor"
-            android:textColor="@color/buttonText"/>
+            android:textColor="@color/buttonText" />
 
     </LinearLayout>
 
@@ -76,6 +76,6 @@
             android:layout_toRightOf="@+id/personName"
             android:layout_toEndOf="@+id/personName"
             android:onClick="onClick"
-            android:textColor="@color/buttonText"/>
+            android:textColor="@color/buttonText" />
     </RelativeLayout>
 </RelativeLayout>

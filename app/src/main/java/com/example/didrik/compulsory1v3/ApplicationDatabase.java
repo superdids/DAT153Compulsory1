@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 
 /**
- * Created by didrik on 24.01.16.
+ * Database private to the application.
  */
 public class ApplicationDatabase extends SQLiteOpenHelper {
 
@@ -19,6 +19,7 @@ public class ApplicationDatabase extends SQLiteOpenHelper {
     private static final String COLUMN_ID = "name";
     private static final String COLUMN_URI_STRING = "uriString";
 
+    @SuppressWarnings("unused")
     public ApplicationDatabase(Context context, String name,
                                SQLiteDatabase.CursorFactory factory,
                                int version) {
@@ -44,10 +45,20 @@ public class ApplicationDatabase extends SQLiteOpenHelper {
         return getWritableDatabase();
     }
 
+    /**
+     * Determines whether an id exists in the database or not.
+     * @param name The id being investigated.
+     * @return True if the id exists, false otherwise.
+     */
     public boolean exists(String name) {
         return find(name) != null;
     }
 
+    /**
+     * Searches the database for a specific id.
+     * @param name The id being investigated.
+     * @return The person object if exists, a null-reference otherwise.
+     */
     public Person find(String name) {
         SQLiteDatabase db = getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_PERSONS + " WHERE " +
@@ -65,6 +76,10 @@ public class ApplicationDatabase extends SQLiteOpenHelper {
         return ret;
     }
 
+    /**
+     * Adds a person to the database (given that his/her name doesn't exist).
+     * @param person The person object begin persisted to the database.
+     */
     public void addPerson(Person person) {
         if(exists(person.getName()))
             return;
@@ -76,6 +91,10 @@ public class ApplicationDatabase extends SQLiteOpenHelper {
         db.close();
     }
 
+    /**
+     * Removes a person from the database.
+     * @param name The id of the person which shall be removed.
+     */
     public void deletePerson(String name) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_PERSONS + " WHERE " +
@@ -83,12 +102,19 @@ public class ApplicationDatabase extends SQLiteOpenHelper {
         db.close();
     }
 
+    /**
+     * Removes all entries from the database.
+     */
     public void clearDB() {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_PERSONS + " WHERE 1;");
         db.close();
     }
 
+    /**
+     * Retrieves all entries from the database
+     * @return A list of all person objects existing in the database.f
+     */
     public ArrayList<Person> fetchAll() {
         SQLiteDatabase db = getWritableDatabase();
         ArrayList<Person> result = new ArrayList<>();

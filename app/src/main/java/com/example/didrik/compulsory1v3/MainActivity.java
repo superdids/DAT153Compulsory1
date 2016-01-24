@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,9 +55,9 @@ public class MainActivity extends AppCompatActivity {
     private ApplicationDatabase myDB;
 
     /**
-     * Renders the view on a mobile device and adds drawable
-     * resources (if they dont exist in the database).
-     * @param savedInstanceState
+     * Renders the view and adds drawable resources (if they don't exist in
+     * the database).
+     * @param savedInstanceState //TODO
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 resources.getResourceEntryName(R.drawable.img));
 
         myDB = new ApplicationDatabase(this, null, null, 1);
+        myDB.clearDB();
         if(!myDB.exists("Didrik"))
             myDB.addPerson(new Person("Didrik", uri.toString()));
     }
@@ -110,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
      * an empty string or is already contained in the database as a primary key,
      * the user will be given suitable information. The activity will otherwise
      * proceed with asking the user for an image which shall be associated to the
-     * value entered in the inputfield.
+     * value entered in the input field.
      */
     private void addMember() {
         EditText editText = (EditText) findViewById(R.id.personName);
@@ -141,8 +143,7 @@ public class MainActivity extends AppCompatActivity {
                     switch (options[which]) {
                         case CAMERA:
                             //Versions at or above API level 23 (Marshmallow) require runtime permissions
-                            //Relevant permissions include CAMERA, READ_EXTERNAL and WRITE_EXTERNAL.
-                            //READ_EXTERNAL is implicitly underlying WRITE_EXTERNAL.
+                            //Relevant permissions include CAMERA and WRITE_EXTERNAL.
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                 if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
                                         && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -163,17 +164,19 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case GALLERY:
                             Intent galleryIntent;
-                            //Versions above API level 19 (KitKat)
-                            if(Build.VERSION.SDK_INT < 19) {
-                                galleryIntent = new Intent();
+                            //The application crashes with permission denial (MANAGE_DOCUMENTS)
+                            //if the API level is at or above 19 (KitKat). No luck with declaring
+                            //the permission in AndroidManifest.xml and requesting permission
+                           if(Build.VERSION.SDK_INT < 19) {
+                               galleryIntent = new Intent();
                                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
                                 galleryIntent.setType("image/*");
                             } else {
-                                galleryIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                                galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
-                                galleryIntent.setType("image/*");
-                            }
-                            startActivityForResult(galleryIntent, PICK_IMAGE);
+                              galleryIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                              galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
+                               galleryIntent.setType("image/*");
+                           }
+                           startActivityForResult(galleryIntent, PICK_IMAGE);
                             break;
                         default:
                             break;
@@ -184,7 +187,14 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-
+    /**
+     * The device receives information of whether requested permissions have been
+     * granted or not by the user.
+     * @param requestCode Identifier in case the application has to request different
+     *                    permissions at different places within a single activity.
+     * @param permissions Permissions requested by the user
+     * @param results Whether a permission has been granted or not by the user.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String [] permissions, int [] results) {
         if(requestCode == REQUEST_CAMERA_RW) {
@@ -200,6 +210,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * The MainActivity will be resumed after an image capture / gallery pick.
+     * @param requestCode Whether an image was captured by a camera application
+     *                    or chosen from the image gallery.
+     * @param resultCode Whether the result was successful or not.
+     * @param data The data of the image (if chosen from gallery), passed as
+     *             an intent.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
@@ -207,7 +225,6 @@ public class MainActivity extends AppCompatActivity {
         if(resultCode != RESULT_OK
                 || (requestCode != TAKE_PHOTO && requestCode != PICK_IMAGE))
             return;
-        //String path;
         Uri selectedImage;
         if(requestCode == TAKE_PHOTO) {
             File file = new File(pathToCapturedPhoto);
@@ -217,21 +234,15 @@ public class MainActivity extends AppCompatActivity {
             } catch(Exception e) { throw new Error(e); }
 
             selectedImage = Uri.fromFile(file);
+            //Makes the image available in the gallery.
             ContentValues values = new ContentValues();
             values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
             values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
             values.put(MediaStore.MediaColumns.DATA, pathToCapturedPhoto);
             getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-            //path = selectedImage.getPath();
         } else {
+            assert data != null;
             selectedImage = data.getData();
-           /* if(Build.VERSION.SDK_INT < 11)
-                path = RealPathUtil.getRealPathFromURI_BelowAPI11(this, selectedImage);
-            else if(Build.VERSION.SDK_INT < 19)
-                path = RealPathUtil.getRealPathFromURI_API11to18(this, selectedImage);
-            else
-                path = RealPathUtil.getRealPathFromURI_API19(this, selectedImage);
-                */
         }
 
         EditText editText = (EditText) findViewById(R.id.personName);
@@ -240,15 +251,17 @@ public class MainActivity extends AppCompatActivity {
         myDB.addPerson(new Person(name, selectedImage.toString()));
     }
 
+    /**
+     * Prepares the camera by creating a file and telling the
+     * camera application where to save it.
+     */
     private void initiateCamera() {
         Intent photoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (photoIntent.resolveActivity(getPackageManager()) != null) {
             File file = null;
-            //TODO Implement throws IOException on createImageFile() !
             try {
                 file = createImageFile();
             } catch (Exception e) {
-                Log.i("MAINACTIVITY", "Create file failed");
                 throw new Error(e);
             }
             if (file != null) {
@@ -259,24 +272,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private File createImageFile() {
-        File storageDirectory = null;
-        File image = null;
-        try {
-            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            String fileName = "JPEG_" + timeStamp + "_";
-            storageDirectory = Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES
-            );
-            image = File.createTempFile(
-                    fileName,
-                    ".jpg",
-                    storageDirectory
-            );
-            pathToCapturedPhoto = /*"file:" +*/ image.getAbsolutePath();
-        } catch(Exception e) {
-            Log.i("MAINACTIVITY", "Failed to create file..");
-            throw new Error(e); }
+    /**
+     * Creates a file at the external storage.
+     * @return An empty JPEG file.
+     * @throws IOException If the creation was unsuccessful.
+     */
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String fileName = "JPEG_" + timeStamp + "_";
+        File storageDirectory = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES
+        );
+        File image = File.createTempFile(
+                fileName,
+                ".jpg",
+                storageDirectory
+        );
+        pathToCapturedPhoto = image.getAbsolutePath();
         return image;
     }
 }
