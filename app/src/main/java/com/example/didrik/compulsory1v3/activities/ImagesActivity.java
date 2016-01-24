@@ -70,4 +70,10 @@ public class ImagesActivity extends AppCompatActivity {
         });
 
     }
+//TODO
+    public void backToMainScreen(View view) {
+        Intent intent = new Intent(ImagesActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+    }
 }

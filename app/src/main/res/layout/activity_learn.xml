@@ -78,6 +78,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/submit"
                 android:id="@+id/learnButton"
+                android:background="@color/buttonColor"
                 android:layout_weight="1"
                 android:onClick="onClick" />
         </LinearLayout>
