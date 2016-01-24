@@ -1,4 +1,4 @@
-package com.example.didrik.compulsory1v3;
+package com.example.didrik.compulsory1v3.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,7 +22,7 @@ public class RotateUtil {
 
     public static void rotate(ExifInterface exif, File file) throws Exception {
         int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-        int angle = 270;
+        int angle = 90;
         switch (orientation) {
             case ExifInterface.ORIENTATION_ROTATE_90 :
                 angle = 90;

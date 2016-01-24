@@ -1,4 +1,4 @@
-package com.example.didrik.compulsory1v3;
+package com.example.didrik.compulsory1v3.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -16,17 +16,20 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.didrik.compulsory1v3.persistence.ApplicationDatabase;
+import com.example.didrik.compulsory1v3.persistence.Person;
+import com.example.didrik.compulsory1v3.R;
+import com.example.didrik.compulsory1v3.utils.RotateUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * The class to be considered as the entry point of the application.
@@ -45,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String GALLERY = "Choose from Gallery";
     private static final String CANCEL = "Cancel";
 
+    /**
+     * Options which will be presented in an AlertDialog
+     */
     private String [] options = { CAMERA, GALLERY, CANCEL };
 
     /**
@@ -59,6 +65,16 @@ public class MainActivity extends AppCompatActivity {
     private ApplicationDatabase myDB;
 
     /**
+     * ID's referring the images in the drawable folder.
+     */
+    private int [] drawableIDs = { R.drawable.didrik, R.drawable.staale, R.drawable.viljar };
+
+    /**
+     * Names which shall be associated to the images.
+     */
+    private String [] names = { "Didrik", "Ståle", "Viljar" };
+
+    /**
      * Renders the view and adds drawable resources (if they don't exist in
      * the database).
      * @param savedInstanceState Information of this activity's previously frozen state.
@@ -67,17 +83,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Resources resources = getResources();
-        Uri uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
-                resources.getResourcePackageName(R.drawable.img) + "/" +
-                resources.getResourceTypeName(R.drawable.img) + "/" +
-                resources.getResourceEntryName(R.drawable.img));
 
         myDB = new ApplicationDatabase(this, null, null, 1);
         myDB.clearDB();
-        if(!myDB.exists("Didrik"))
-            myDB.addPerson(new Person("Didrik", uri.toString()));
+
+        Resources resources = getResources();
+        Uri uri;
+        for(int x = 0; x < names.length; x++) {
+            if(!myDB.exists(names[x])) {
+                uri = getResourceById(resources, drawableIDs[x]);
+                myDB.addPerson(new Person(names[x], uri.toString()));
+            }
+        }
     }
+
+    private Uri getResourceById(Resources resources, int id) {
+         return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
+                resources.getResourcePackageName(id) + "/" +
+                resources.getResourceTypeName(id) + "/" +
+                resources.getResourceEntryName(id));
+    }
+
+
 
     /**
      * Pressing either the "Names", "Images" or "Learn" button, will start

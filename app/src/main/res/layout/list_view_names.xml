@@ -14,8 +14,9 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/buttonNames"
+        android:text="Delete Person"
+        android:id="@+id/deletePersonButton"
+        android:background="@color/buttonColor"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"

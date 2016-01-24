@@ -1,4 +1,4 @@
-package com.example.didrik.compulsory1v3;
+package com.example.didrik.compulsory1v3.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.example.didrik.compulsory1v3.persistence.ApplicationDatabase;
+import com.example.didrik.compulsory1v3.persistence.Person;
+import com.example.didrik.compulsory1v3.R;
+import com.example.didrik.compulsory1v3.adapters.ImageAdapter;
 
 import java.util.ArrayList;
 
@@ -48,7 +53,8 @@ public class ImagesActivity extends AppCompatActivity {
         list = myDB.fetchAll();
 
         ListView listView = (ListView) findViewById(R.id.imagesActivityListView);
-        imageAdapter = new ImageAdapter(getApplicationContext(), R.layout.list_view_images, list);
+        imageAdapter = new ImageAdapter(getApplicationContext(), R.layout.list_view_images,
+                list, myDB);
 
 
         listView.setAdapter(imageAdapter);

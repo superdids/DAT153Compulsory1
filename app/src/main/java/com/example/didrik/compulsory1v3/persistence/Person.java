@@ -1,4 +1,4 @@
-package com.example.didrik.compulsory1v3;
+package com.example.didrik.compulsory1v3.persistence;
 
 /**
  * The person class represents the name of the person and an URI
@@ -37,10 +37,7 @@ public class Person {
     }
 
     /**
-     * A default ArrayAdapter implementation will retrieve the toString
-     * representation of an object. In our case, we want toString to get the name,
-     * saving us some lines of code by avoiding a custom implementation of the adapter
-     * when rendering the ListView in NamesActivity.
+     * toString implementation of the person.
      * @return Name of the person.
      */
     @Override

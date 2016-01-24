@@ -1,4 +1,4 @@
-package com.example.didrik.compulsory1v3;
+package com.example.didrik.compulsory1v3.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.didrik.compulsory1v3.persistence.ApplicationDatabase;
+import com.example.didrik.compulsory1v3.persistence.Person;
+import com.example.didrik.compulsory1v3.R;
 
 import java.io.IOException;
 import java.io.InputStream;

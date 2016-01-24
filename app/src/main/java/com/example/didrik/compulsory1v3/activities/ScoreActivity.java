@@ -1,10 +1,12 @@
-package com.example.didrik.compulsory1v3;
+package com.example.didrik.compulsory1v3.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+
+import com.example.didrik.compulsory1v3.R;
 
 /**
  * Result of the users performance in learning mode.
