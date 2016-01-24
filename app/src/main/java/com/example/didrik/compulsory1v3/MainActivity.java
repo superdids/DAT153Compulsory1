@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,10 +26,13 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * The class to be considered as the entry point of the application.
- * @author dids92
+ * @author Didrik Emil Aubert
+ * @author Ståle André Mikalsen
+ * @author Viljar Buen Rolfsen
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -57,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Renders the view and adds drawable resources (if they don't exist in
      * the database).
-     * @param savedInstanceState //TODO
+     * @param savedInstanceState Information of this activity's previously frozen state.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
     private void addMember() {
         EditText editText = (EditText) findViewById(R.id.personName);
         String name = editText.getText().toString();
-        if(name == null || name.equals("")) {
+        if(name.equals("")) {
             Toast.makeText(getApplicationContext(), "Please enter a name", Toast.LENGTH_SHORT).show();
         } else if(myDB.exists(name)) {
             Toast.makeText(getApplicationContext(), name + " already exists...", Toast.LENGTH_SHORT).show();
@@ -138,8 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (which < 0 || which >= options.length) return;
-                else {
+                if(which >= 0 && which < options.length) {
                     switch (options[which]) {
                         case CAMERA:
                             //Versions at or above API level 23 (Marshmallow) require runtime permissions
@@ -196,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
      * @param results Whether a permission has been granted or not by the user.
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode, String [] permissions, int [] results) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String [] permissions, @NonNull int [] results) {
         if(requestCode == REQUEST_CAMERA_RW) {
             if(results.length == 2
                     && results[0] == PackageManager.PERMISSION_GRANTED
@@ -258,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
     private void initiateCamera() {
         Intent photoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (photoIntent.resolveActivity(getPackageManager()) != null) {
-            File file = null;
+            File file;
             try {
                 file = createImageFile();
             } catch (Exception e) {
