@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         myDB = new ApplicationDatabase(this, null, null, 1);
-        //myDB.clearDB();
 
         Resources resources = getResources();
         Uri uri;
